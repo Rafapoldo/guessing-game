@@ -4,7 +4,7 @@ import logo from '../assets/logo.webp'
 
 const Header = () => {
    return (
-      <header className="header">
+      <header className="header ">
          <div className="logo">
             <img src={logo} alt="Logo" />
          </div>
