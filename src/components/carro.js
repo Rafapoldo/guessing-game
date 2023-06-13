@@ -3,7 +3,7 @@ import React from 'react';
 
 
 class Carro  extends React.Component{
-   
+
    constructor(props){
       super(props)
       this.modelo = "Gol"

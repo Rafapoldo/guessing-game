@@ -1,13 +1,12 @@
-
 import './App.css';
 import Header from './layout/Header';
-import Carro from './components/carro';
+import GuessForm from "./components/guessForm";
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Carro fator={10}/>
+      <GuessForm/>
     </div>
   );
 }
