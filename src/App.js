@@ -1,6 +1,6 @@
 import './App.css';
 import Header from './layout/Header';
-import GuessForm from "./components/guessForm";
+import GuessForm from './components/GuessForm';
 
 function App() {
   return (
