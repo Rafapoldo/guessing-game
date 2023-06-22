@@ -27,27 +27,27 @@ class GuessForm extends React.Component{
       this.setState({selectedChampion: e.target.value});
    }
 
-   componentDidMount() {
-      fetch('http://ddragon.leagueoflegends.com/cdn/13.12.1/data/en_US/champion.json')
-         .then(response => response.json())
-         .then(data => {
-            const options = {};
+   // componentDidMount() {
+   //    fetch('http://ddragon.leagueoflegends.com/cdn/13.12.1/data/en_US/champion.json')
+   //       .then(response => response.json())
+   //       .then(data => {
+   //          const options = {};
            
-            Object.keys(data.data).forEach((propriedade, value) => {
-               options[value] = propriedade;
-            });
-            // console.log(options);
-            this.setState(
-               { options },
-               () => {
-                 console.log(this.state.options);
-               }
-            );
-      }).catch(error => {
-         console.error('Error fetching champions:', error);
-      });
-      console.log(this.state.options);   
-   }
+   //          Object.keys(data.data).forEach((propriedade, value) => {
+   //             options[value] = propriedade;
+   //          });
+   //          // console.log(options);
+   //          this.setState(
+   //             { options },
+   //             () => {
+   //               console.log(this.state.options);
+   //             }
+   //          );
+   //    }).catch(error => {
+   //       console.error('Error fetching champions:', error);
+   //    });
+   //    console.log(this.state.options);   
+   // }
 
    render(){
       
@@ -80,10 +80,10 @@ class GuessForm extends React.Component{
             </div>
             <div className='grid grid-cols-1 gap-4 justify-center items-center p-5'>
                <div className="grid items-center justify-center">
-                  <ChampionStatus/>
-                  <ChampionStatus/>
-                  <ChampionStatus/>
-                  <ChampionStatus/>
+                  <ChampionStatus selectedChampion="Zilean"/>
+                  <ChampionStatus selectedChampion="Vi"/>
+                  <ChampionStatus selectedChampion="Yasuo"/>
+                  <ChampionStatus selectedChampion="Lux"/>
 
                </div>
             </div>

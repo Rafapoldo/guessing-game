@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-constructor */
 import React from 'react';
-
+import Zilean from '../assets/images/champion-squares/Zilean.png'
 
 class ChampionStatus extends React.Component{
    
@@ -16,25 +16,37 @@ class ChampionStatus extends React.Component{
 
    }
 
+   async componentDidMount() {
+      const { selectedChampion } = this.props;
+      if (selectedChampion) {
+         try {
+            const imageModule = await import(`../assets/images/champion-squares/${selectedChampion}.png`);
+            this.setState({ imageModule: imageModule.default });
+         } catch (error) {
+            console.error('Erro ao carregar a imagem:', error);
+         }
+      }
+   }
+
    render(){
+      const { imageModule } = this.state;
+
+      if (!imageModule) {
+        return null;
+      }
       
       return(
-         // <div className='grid grid-cols-8 gap-1'>
-         //    <div className='h-50 border-2'>1</div>
-         //    <div className='border-2'>2</div>
-         //    <div className='border-2'>3</div>
-         //    <div className='border-2'>4</div>
-         //    <div className='border-2'>5</div>
-         //    <div className='border-2'>6</div>
-         //    <div className='border-2'>7</div>
-         //    <div className='border-2'>8</div>
-         // </div>
+         
+
          <div className="overflow-x-auto my-3">
             <div className="flex flex-nowrap">
-               <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0 "></div>
-               <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0 "></div>
-               <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0 "></div>
-               <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0 "></div>
+               <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0 bg-cover bg-center" 
+                  style={{ backgroundImage: `url(${imageModule})`
+                
+               }}></div>
+               <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0"></div>
+               <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0"></div>
+               <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0"></div>
                <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0 "></div>
                <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0 "></div>
                <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0 "></div>
