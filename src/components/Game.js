@@ -23,12 +23,20 @@ class Game extends React.Component{
         })
     }
 
+    fetchApi() {
+        fetch("https://guessing-game-387200.uc.r.appspot.com/v1/games")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+    }
+
     render(){
         return(
             <div>
                 <div className='grid md:grid-cols-3 p-5'>
                     <div className="col-start-2 col-end-3 justify-center items-center">
-                        <h1 className='bg-gray-200 py-4'>
+                        <h1 className='bg-gray-200 py-4' onClick={this.fetchApi}>
                             Guess today’s champion!
                             Start typing one champion name
                         </h1>
