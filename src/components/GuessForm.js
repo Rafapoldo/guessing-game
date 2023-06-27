@@ -14,7 +14,6 @@ class GuessForm extends React.Component {
 
     onChangeChampionInput = (e) => {
         const value = e.target.value
-        console.log(value);
         this.setState({
             query: value,
             filteredChampions: this.props.possibleChampions.filter(champ => champ.includes(value)),
@@ -34,7 +33,9 @@ class GuessForm extends React.Component {
         this.setState({
             filteredChampions: [],
         })
-        this.props.onGuessChampion(this.state.query)
+        if (this.props.canGuess) {
+            this.props.onGuessChampion(this.state.query)
+        }
     }
 
     render() {
@@ -56,6 +57,7 @@ class GuessForm extends React.Component {
                             <input
                                 className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
                                 type="submit"
+                                disabled={!this.props.canGuess}
                                 value=">"/>
                         </div>
                     </div>

@@ -10,9 +10,6 @@ class ChampionStatus extends React.Component {
             selectedChampion: '',
             options: {}
         }
-        // this.checkChamp = this.checkChamp.bind(this);
-        // this.onChangeChampionImput = this.onChangeChampionImput.bind(this);
-
     }
 
     async componentDidMount() {
@@ -31,7 +28,6 @@ class ChampionStatus extends React.Component {
         const {imageModule} = this.state;
         const {selectedChampion, todayChampion} = this.props;
 
-        console.log(todayChampion)
         const answer = this.state.allChampions.find((e, i) => {
             return e.name === todayChampion.name
         })
@@ -77,5 +73,3 @@ class ChampionStatus extends React.Component {
 }
 
 export default ChampionStatus;
-
-//aprendendo alguns detalhes

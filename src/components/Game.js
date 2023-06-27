@@ -4,6 +4,7 @@ import ChampionStatus from "./ChampionStatus";
 
 const lcGuessedChampions = "guessedChampions";
 const lcTodayChampion = "todayChampion";
+const lcWonToday = "wonToday";
 const lcExpirationDate = "expirationDate";
 
 const URL = "https://guessing-game-387200.uc.r.appspot.com/v1/games";
@@ -14,6 +15,8 @@ class Game extends React.Component{
         super(props)
         this.state = {
             todayChampion: null,
+            todayChampionLoaded: false,
+            wonToday: false,
             possibleChampions: ["Aatrox", "Ahri", "Akali", "Akshan", "Alistar", "Amumu", "Anivia", "Annie", "Aphelios", "Ashe", "Aurelion Sol", "Azir", "Bard", "Belveth", "Blitzcrank", "Brand", "Braum", "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki", "Darius", "Diana", "Dr. Mundo", "Draven", "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves", "Gwen", "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern", "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx", "K'Sante", "Kai'Sa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw", "LeBlanc", "Lee Sin", "Leona", "Lillia", "Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "Master Yi", "Milio", "Miss Fortune", "Mordekaiser", "Morgana", "Nami", "Nasus", "Nautilus", "Neeko", "Nidalee", "Nilah", "Nocturne", "Nunu & Willump", "Olaf", "Orianna", "Ornn", "Pantheon", "Poppy", "Pyke", "Qiyana", "Quinn", "Rakan", "Rammus", "Rek'Sai", "Rell", "Renata", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Samira", "Sejuani", "Senna", "Seraphine", "Sett", "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Sylas", "Syndra", "Tahm Kench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "Twisted Fate", "Twitch", "Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Vel'Koz", "Vex", "Vi", "Viego", "Viktor", "Vladimir", "Volibear", "Warwick", "Wukong", "Xayah", "Xerath", "Xin Zhao", "Yasuo", "Yone", "Yorick", "Yuumi", "Zac", "Zed", "Zeri", "Ziggs", "Zilean", "Zoe", "Zyra"],
             guessedChampions: []
         }
@@ -22,12 +25,14 @@ class Game extends React.Component{
 
     componentDidMount() {
         const expirationDate = parseInt(localStorage.getItem(lcExpirationDate))
+        const localWonToday = localStorage.getItem(lcWonToday)
         const localGuessedChampions = localStorage.getItem(lcGuessedChampions)
         const localTodayChampion = localStorage.getItem(lcTodayChampion)
 
         if (!expirationDate || new Date() > new Date(expirationDate)) {
             this.setState({
                 guessedChampions: [],
+                wonToday: false,
             })
             localStorage.setItem(lcGuessedChampions, JSON.stringify([]))
             fetch(URL)
@@ -35,6 +40,7 @@ class Game extends React.Component{
                 .then(data => {
                     this.setState({
                         todayChampion: data,
+                        todayChampionLoaded: true,
                     })
                     localStorage.setItem(lcTodayChampion, JSON.stringify(data))
                 }).catch((error) => {
@@ -42,16 +48,11 @@ class Game extends React.Component{
             })
             localStorage.setItem(lcExpirationDate, JSON.stringify(this.getExpirationDate().getTime()))
         } else {
-            if (localGuessedChampions) {
-                this.setState({
-                    guessedChampions: JSON.parse(localGuessedChampions),
-                })
-            }
-            if (localTodayChampion) {
-                this.setState({
-                    todayChampion: JSON.parse(localTodayChampion),
-                })
-            }
+            this.setState({
+                guessedChampions: JSON.parse(localGuessedChampions) || [],
+                wonToday: JSON.parse(localWonToday) || false,
+                todayChampion: JSON.parse(localTodayChampion) || [],
+            })
         }
     }
 
@@ -70,6 +71,17 @@ class Game extends React.Component{
             possibleChampions: this.state.possibleChampions,
             guessedChampions: this.state.guessedChampions.concat(champion),
         })
+        if (champion === this.state.todayChampion.name) {
+            this.onWinGame()
+        }
+    }
+
+    onWinGame() {
+        this.setState({
+            wonToday: true,
+        })
+        localStorage.setItem(lcWonToday, JSON.stringify(this.state.wonToday))
+        console.log("ACERTOU MISERAVI!")
     }
 
     getExpirationDate() {
@@ -90,6 +102,7 @@ class Game extends React.Component{
                             Start typing one champion name
                         </h1>
                         <GuessForm
+                            canGuess={!this.state.wonToday && this.state.todayChampionLoaded}
                             possibleChampions={this.state.possibleChampions}
                             onGuessChampion={this.onGuessChampion}/>
                     </div>
