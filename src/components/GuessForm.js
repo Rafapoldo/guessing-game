@@ -13,12 +13,22 @@ class GuessForm extends React.Component {
     }
 
     onChangeChampionInput = (e) => {
-        const value = e.target.value
+        const value = e.target.value.toLowerCase();
         this.setState({
             query: value,
-            filteredChampions: this.props.possibleChampions.filter(champ => champ.includes(value)),
+            filteredChampions: this.props.possibleChampions.filter(champ => {
+                const champLowercase = champ.toLowerCase();
+                for (let i = 0; i < value.length; i++) {
+                    if (champLowercase[i] !== value[i]) {
+                        return false;
+                    }
+                }
+                return true;
+            }),
         });
     }
+    
+    
 
     onClickSelectChampion(champion) {
         this.inputRef.current.value = champion
@@ -42,7 +52,7 @@ class GuessForm extends React.Component {
         return (
             <div>
                 <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
-                onSubmit={this.onSubmitChampion}>
+                    onSubmit={this.onSubmitChampion}>
                     <div className='grid grid-cols-3 gap-2'>
                         <div className='col-span-2'>
                             <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
