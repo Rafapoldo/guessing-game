@@ -1,5 +1,4 @@
 import React from 'react';
-import {queries} from "@testing-library/react";
 
 class GuessForm extends React.Component {
 
@@ -30,10 +29,19 @@ class GuessForm extends React.Component {
         })
     }
 
+    onSubmitChampion = (event) => {
+        event.preventDefault()
+        this.setState({
+            filteredChampions: [],
+        })
+        this.props.onGuessChampion(this.state.query)
+    }
+
     render() {
         return (
             <div>
-                <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+                <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
+                onSubmit={this.onSubmitChampion}>
                     <div className='grid grid-cols-3 gap-2'>
                         <div className='col-span-2'>
                             <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
@@ -47,9 +55,8 @@ class GuessForm extends React.Component {
                         <div>
                             <input
                                 className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                                type="button"
-                                value=">"
-                                onClick={() => this.props.onGuessChampion(this.state.query)}/>
+                                type="submit"
+                                value=">"/>
                         </div>
                     </div>
                 </form>
