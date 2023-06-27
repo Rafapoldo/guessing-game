@@ -36,14 +36,17 @@ class ChampionStatus extends React.Component {
             return e.name === selectedChampion
         })
 
+        const baseClassGreen = "bg-green-700 h-16 w-16 border-2 border-gray-500 flex-shrink-0";
+        const baseClassRed = "bg-red-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0";
+        const baseClassYellow = "bg-yellow-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0";
         const newGuess = {
-            position: answer.position === guess.position ? "bg-green-700 h-16 w-16 border-2 border-gray-500 flex-shrink-0" : "bg-red-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0",
-            gender: answer.gender === guess.gender ? "bg-green-700 h-16 w-16 border-2 border-gray-500 flex-shrink-0" : "bg-red-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0",
-            specie: answer.specie === guess.specie ? "bg-green-700 h-16 w-16 border-2 border-gray-500 flex-shrink-0" : "bg-red-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0",
-            resource: answer.resource === guess.resource ? "bg-green-700 h-16 w-16 border-2 border-gray-500 flex-shrink-0" : "bg-red-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0",
-            range: answer.range === guess.range ? "bg-green-700 h-16 w-16 border-2 border-gray-500 flex-shrink-0" : "bg-red-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0",
-            region: answer.region === guess.region ? "bg-green-700 h-16 w-16 border-2 border-gray-500 flex-shrink-0" : "bg-red-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0",
-            releaseYear: answer.releaseYear === guess.releaseYear ? "bg-green-700 h-16 w-16 border-2 border-gray-500 flex-shrink-0" : "bg-red-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0",
+            position: answer.position === guess.position ? baseClassGreen : answer.position.split("/").some(e => guess.position.split("/").includes(e)) ? baseClassYellow : baseClassRed,
+            gender: answer.gender === guess.gender ? baseClassGreen : baseClassRed,
+            specie: answer.specie === guess.specie ? baseClassGreen : answer.specie.split("/").some(e => guess.specie.split("/").includes(e)) ? baseClassYellow : baseClassRed,
+            resource: answer.resource === guess.resource ? baseClassGreen : baseClassRed,
+            range: answer.range === guess.range ? baseClassGreen : answer.range.split("/").some(e => guess.range.split("/").includes(e)) ? baseClassYellow : baseClassRed,
+            region: answer.region === guess.region ? baseClassGreen : answer.region.split("/").some(e => guess.region.split("/").includes(e)) ? baseClassYellow : baseClassRed,
+            releaseYear: answer.releaseYear === guess.releaseYear ? baseClassGreen : baseClassRed,
         }
 
         if (!imageModule) {
@@ -58,13 +61,24 @@ class ChampionStatus extends React.Component {
                              backgroundImage: `url(${imageModule})`
 
                          }}></div>
-                    <div className={newGuess.position}>{guess.position}</div>
+                    <div className={newGuess.position}>{guess.position.split("/")}</div>
                     <div className={newGuess.gender}>{guess.gender}</div>
                     <div className={newGuess.specie}>{guess.specie}</div>
                     <div className={newGuess.resource}>{guess.resource}</div>
-                    <div className={newGuess.range}>{guess.range}</div>
-                    <div className={newGuess.region}>{guess.region}</div>
-                    <div className={newGuess.releaseYear}>{guess.releaseYear}</div>
+                    <div className={newGuess.range}>{guess.range.split("/").join("/ ")}</div>
+                    <div className={newGuess.region}>{guess.region.split("/").join("/ ")}</div>
+                    <div className={newGuess.releaseYear} style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-evenly"
+                    }}>
+                        <span style={{
+                            fontSize: "18px"
+                        }}>{guess.releaseYear}</span>
+                        <div style={{
+                            fontSize: "28px"
+                        }}>{answer.releaseYear === guess.releaseYear ? "" : answer.releaseYear > guess.releaseYear ? "⬆" : "⬇"} </div>
+                    </div>
                 </div>
             </div>
 
