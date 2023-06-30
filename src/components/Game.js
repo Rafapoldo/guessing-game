@@ -93,6 +93,7 @@ class Game extends React.Component{
     }
 
     render(){
+        console.log(this.state.guessedChampions, 'array');
         return(
             <div>
                 <div className='grid md:grid-cols-3 p-5'>
@@ -109,8 +110,39 @@ class Game extends React.Component{
                 </div>
                 <div className='grid grid-cols-1 gap-4 justify-center items-center p-5'>
                     <div className="grid items-center justify-center">
+                        {this.state.guessedChampions.length > 0  && (
+                            <div className="overflow-x-auto my-3 text-12">
+                                <div className="flex flex-nowrap text-white font-serif">
+                                    <div className=" h-16 w-16 border-b-2 border-white flex items-center justify-center ">
+                                        <span>Champion</span>
+                                    </div>
+                                    <div className=" h-16 w-16 border-b-2 border-white flex items-center justify-center ">
+                                        <span>Position</span>
+                                    </div>
+                                    <div className=" h-16 w-16 border-b-2 border-white flex items-center justify-center ">
+                                        <span>Gender</span>
+                                    </div>
+                                    <div className=" h-16 w-16 border-b-2 border-white flex items-center justify-center ">
+                                        <span>Specie</span>
+                                    </div>
+                                    <div className=" h-16 w-16 border-b-2 border-white flex items-center justify-center ">
+                                        <span>Resource</span>
+                                    </div>
+                                    <div className=" h-16 w-16 border-b-2 border-white flex items-center justify-center ">
+                                        <span>Range</span>
+                                    </div>
+                                    <div className=" h-16 w-16 border-b-2 border-white flex items-center justify-center ">
+                                        <span>Region</span>
+                                    </div>
+                                    <div className=" h-16 w-16 border-b-2 border-white flex items-center justify-center ">
+                                        <span>Release Year</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        
                         {(this.state.guessedChampions.length === 0 ? "" :
-                            this.state.guessedChampions.map(champ => {
+                            this.state.guessedChampions.reverse().map(champ => {
                                 return <ChampionStatus key={champ} todayChampion={this.state.todayChampion} selectedChampion={champ}/>
                             })
                         )}

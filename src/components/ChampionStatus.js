@@ -1,5 +1,7 @@
 /* eslint-disable no-useless-constructor */
 import React from 'react';
+import arrow_down from "../assets/images/arrow_down.png";
+import arrow_up from "../assets/images/arrow_up.png";
 
 class ChampionStatus extends React.Component {
 
@@ -25,6 +27,7 @@ class ChampionStatus extends React.Component {
     }
 
     render() {
+        
         const {imageModule} = this.state;
         const {selectedChampion, todayChampion} = this.props;
 
@@ -36,9 +39,9 @@ class ChampionStatus extends React.Component {
             return e.name === selectedChampion
         })
 
-        const baseClassGreen = "bg-green-700 h-16 w-16 border-2 border-gray-500 flex-shrink-0";
-        const baseClassRed = "bg-red-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0";
-        const baseClassYellow = "bg-yellow-500 h-16 w-16 border-2 border-gray-500 flex-shrink-0";
+        const baseClassGreen = "bg-green-700 h-16 w-16 border-2 border-gray-600 flex-shrink-0";
+        const baseClassRed = "bg-red-500 h-16 w-16 border-2 border-gray-600 flex-shrink-0";
+        const baseClassYellow = "bg-yellow-500 h-16 w-16 border-2 border-gray-600 lex-shrink-0";
         const newGuess = {
             position: answer.position === guess.position ? baseClassGreen : answer.position.split("/").some(e => guess.position.split("/").includes(e)) ? baseClassYellow : baseClassRed,
             gender: answer.gender === guess.gender ? baseClassGreen : baseClassRed,
@@ -55,29 +58,35 @@ class ChampionStatus extends React.Component {
 
         return (
             <div className="overflow-x-auto my-3">
-                <div className="flex flex-nowrap">
+                <div className="flex flex-nowrap text-white font-serif">
                     <div className="bg-gray-300 h-16 w-16 border-2 border-gray-500 flex-shrink-0 bg-cover bg-center"
                          style={{
                              backgroundImage: `url(${imageModule})`
-
-                         }}></div>
-                    <div className={newGuess.position}>{guess.position.split("/")}</div>
-                    <div className={newGuess.gender}>{guess.gender}</div>
-                    <div className={newGuess.specie}>{guess.specie}</div>
-                    <div className={newGuess.resource}>{guess.resource}</div>
-                    <div className={newGuess.range}>{guess.range.split("/").join("/ ")}</div>
-                    <div className={newGuess.region}>{guess.region.split("/").join("/ ")}</div>
-                    <div className={newGuess.releaseYear} style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-evenly"
-                    }}>
-                        <span style={{
-                            fontSize: "18px"
-                        }}>{guess.releaseYear}</span>
-                        <div style={{
-                            fontSize: "28px"
-                        }}>{answer.releaseYear === guess.releaseYear ? "" : answer.releaseYear > guess.releaseYear ? "⬆" : "⬇"} </div>
+                         }}>
+                    </div>
+                    <div className={`${newGuess.position} flex items-center justify-center`}>
+                        <span>{guess.position.split("/").join("/ ")}</span>
+                    </div>
+                    <div className={`${newGuess.gender} flex items-center justify-center`}>
+                        <span>{guess.gender}</span>
+                    </div>
+                    <div className={`${newGuess.specie} flex items-center justify-center`}>
+                        <span>{guess.specie}</span>
+                    </div>
+                    <div className={`${newGuess.resource} flex items-center justify-center`}>
+                        <span>{guess.resource}</span>
+                    </div>
+                    <div className={`${newGuess.range} flex items-center justify-center`}>
+                        <span>{guess.range.split("/").join("/ ")}</span>
+                    </div>
+                    <div className={`${newGuess.region} flex items-center justify-center`}>
+                        <span>{guess.region.split("/").join("/ ")}</span>
+                    </div>
+                    <div className={`${newGuess.releaseYear} flex items-center justify-center bg-cover bg-center`}
+                        style={{
+                            backgroundImage: `url(${answer.releaseYear === guess.releaseYear ? '' : answer.releaseYear > guess.releaseYear ? arrow_up : arrow_down})`
+                        }}>
+                        <span>{guess.releaseYear}</span>
                     </div>
                 </div>
             </div>
